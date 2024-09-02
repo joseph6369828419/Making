@@ -12,7 +12,7 @@ const pass = "KDTJqaDsnEM4Ku3D";
 
 // CORS configuration
 app.use(cors({
-    origin: `https://main--classy-meerkat-896191.netlify.app/`  // Ensure this matches where your React app is running
+    origin: `https://main--rainbow-piroshki-7c7aa1.netlify.app/`  // Ensure this matches where your React app is running
 }));
 
 // Connect to MongoDB
