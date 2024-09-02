@@ -40,8 +40,7 @@ app.use(bodyParser.json());  // Added for parsing JSON
 // Serve static files
 app.use(express.static('public'));
 
-
-// Handle form submission
+// Handle form submission (Save new user)
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
 
@@ -53,6 +52,54 @@ app.post('/register', (req, res) => {
         .catch((err) => {
             console.error('Error saving user:', err);
             res.status(500).send('Error registering user');
+        });
+});
+
+// Find user by username
+app.get('/register', (req, res) => {
+    const { username } = req.query;
+    
+    User.findOne({ username })
+        .then((user) => {
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).send('User not found');
+            }
+        })
+        .catch((err) => {
+            console.error('Error finding user:', err);
+            res.status(500).send('Error finding user');
+        });
+});
+
+// Get all users
+app.get('/register/all', (req, res) => {
+    User.find()
+        .then((users) => {
+            res.json(users);
+        })
+        .catch((err) => {
+            console.error('Error fetching users:', err);
+            res.status(500).send('Error fetching users');
+        });
+});
+
+// Update user details
+app.put('/register', (req, res) => {
+    const { username, newUsername, newPassword } = req.body;
+
+    User.findOneAndUpdate({ username }, { username: newUsername, password: newPassword }, { new: true })
+        .then((updatedUser) => {
+            if (updatedUser) {
+                res.send('User updated successfully');
+            } else {
+                res.status(404).send('User not found');
+            }
+        })
+        .catch((err) => {
+            console.error('Error updating user:', err);
+            res.status(500).send('Error updating user');
         });
 });
 
